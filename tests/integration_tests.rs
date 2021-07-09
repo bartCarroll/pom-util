@@ -1,4 +1,23 @@
 use pomutil::parse_pom;
+use rstest::rstest;
+
+#[rstest]
+fn parse_invalid_strings(
+    #[values("", "    ", "<>", "jfkds;a", "<project><artifactId>blah</artifactId>")]
+    pom_str: &str) {
+    let result = parse_pom(pom_str);
+    assert!(result.is_err());
+}
+
+#[rstest]
+fn parse_valid_xml(
+    #[values("<html></html>", "<xml></html>", "<project></project>")]
+    pom_str: &str) {
+    let result = parse_pom(pom_str);
+    assert!(result.is_ok());
+    let pom = result.unwrap();
+    println!("POMSTUFF: {:?}", pom);
+}
 
 #[test]
 fn parse_minimal_pom() {
@@ -16,6 +35,27 @@ fn parse_minimal_pom() {
     let pom = result.unwrap();
     println!("POM: {:?}", pom);
     assert_eq!(pom.version, "1.0-SNAPSHOT");
-    assert_eq!(pom.groupId, "com.blah");
-    assert_eq!(pom.artifactId, "my-artifact");
+    assert_eq!(pom.group_id, "com.blah");
+    assert_eq!(pom.artifact_id, "my-artifact");
+}
+
+#[test]
+fn parse_with_parent(){
+    let pom_str = "<project>
+    <parent>
+      <groupId>com.my.corp</groupId>
+      <artifactId>my-parent</artifactId>
+      <version>1.2.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>my-artifact</artifactId>
+    <packaging>war</packaging>
+    </project>";
+
+    let result = parse_pom(pom_str);
+    assert!(result.is_ok());
+    let pom = result.unwrap();
+    println!("POM: {:?}", pom);
+    assert_eq!(pom.version, "1.0-SNAPSHOT");
+    assert_eq!(pom.group_id, "com.blah");
+    assert_eq!(pom.artifact_id, "my-artifact");
 }
