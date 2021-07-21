@@ -11,12 +11,10 @@ fn parse_invalid_strings(
 
 #[rstest]
 fn parse_valid_xml(
-    #[values("<html></html>", "<xml></html>", "<project></project>")]
+    #[values("<html></html>", "<xml></xml>", "<project></project>")]
     pom_str: &str) {
     let result = parse_pom(pom_str);
-    assert!(result.is_ok());
-    let pom = result.unwrap();
-    println!("POMSTUFF: {:?}", pom);
+    assert!(result.is_err());
 }
 
 #[test]
@@ -52,6 +50,7 @@ fn parse_with_parent(){
     </project>";
 
     let result = parse_pom(pom_str);
+    println!("result: {:?}", result);
     assert!(result.is_ok());
     let pom = result.unwrap();
     println!("POM: {:?}", pom);

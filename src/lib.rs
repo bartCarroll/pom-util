@@ -5,28 +5,25 @@ use serde::Deserialize;
 use quick_xml::de::{from_str, DeError};
 
 #[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct Dependency {
-    #[serde(rename = "groupId", default)]
     pub group_id: String,
-    #[serde(rename = "artifactId", default)]
     pub artifact_id: String,
     pub version: String
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct Parent {
-    #[serde(rename = "groupId", default)]
     pub group_id: String,
-    #[serde(rename = "artifactId", default)]
     pub artifact_id: String,
     pub version: String
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct Project {
-    #[serde(rename = "groupId", default)]
     pub group_id: String,
-    #[serde(rename = "artifactId", default)]
     pub artifact_id: String,
     pub version: String,
     pub parent: Option<Parent>,
