@@ -35,6 +35,7 @@ fn parse_minimal_pom() {
     pom.version.expect("1.0-SNAPSHOT");
     pom.group_id.expect("com.blah");
     assert_eq!(pom.artifact_id, "my-artifact");
+    assert_eq!(pom.parent.is_none(), true);
 }
 
 #[test]
