@@ -32,8 +32,8 @@ fn parse_minimal_pom() {
     assert!(result.is_ok());
     let pom = result.unwrap();
     println!("POM: {:?}", pom);
-    assert_eq!(pom.version, "1.0-SNAPSHOT");
-    assert_eq!(pom.group_id, "com.blah");
+    pom.version.expect("1.0-SNAPSHOT");
+    pom.group_id.expect("com.blah");
     assert_eq!(pom.artifact_id, "my-artifact");
 }
 
@@ -54,7 +54,8 @@ fn parse_with_parent(){
     assert!(result.is_ok());
     let pom = result.unwrap();
     println!("POM: {:?}", pom);
-    assert_eq!(pom.version, "1.0-SNAPSHOT");
-    assert_eq!(pom.group_id, "com.blah");
+    assert_eq!(pom.version.is_none(), true);
+    assert_eq!(pom.group_id.is_none(), true);
+    assert_eq!(pom.parent.is_some(), true);
     assert_eq!(pom.artifact_id, "my-artifact");
 }

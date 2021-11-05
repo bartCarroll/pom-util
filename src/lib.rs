@@ -23,9 +23,9 @@ pub struct Parent {
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Project {
-    pub group_id: String,
+    pub group_id: Option<String>,
     pub artifact_id: String,
-    pub version: String,
+    pub version: Option<String>,
     pub parent: Option<Parent>,
     pub dependencies: Option<Vec<Dependency>>,
 }
