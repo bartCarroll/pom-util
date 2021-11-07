@@ -60,3 +60,37 @@ fn parse_with_parent(){
     assert_eq!(pom.parent.is_some(), true);
     assert_eq!(pom.artifact_id, "my-artifact");
 }
+
+#[test]
+fn parse_with_dependencies(){
+    let pom_str = "<project>
+    <artifactId>my-artifact</artifactId>
+    <groupId>my.group.id</groupId>
+    <packaging>war</packaging>
+    <version>1.1.1</version>
+    <dependencies>
+        <dependency>
+            <groupId>us.springett</groupId>
+            <artifactId>cpe-parser</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>some.other</groupId>
+            <artifactId>artifact</artifactId>
+            <version>1.7.1</version>
+            <scope>test</scope>
+    </dependency>
+    </dependencies>
+    </project>";
+
+    let result = parse_pom(pom_str);
+    println!("result: {:?}", result);
+    assert!(result.is_ok());
+    let pom = result.unwrap();
+    println!("POM: {:?}", pom);
+    assert_eq!(pom.version.unwrap(), "1.1.1");
+    assert_eq!(pom.group_id.unwrap(), "my.group.id");
+    assert_eq!(pom.artifact_id, "my-artifact");
+    assert_eq!(pom.dependencies.unwrap().dependency.len(), 2);
+}
+

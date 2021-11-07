@@ -9,7 +9,16 @@ use quick_xml::de::{from_str, DeError};
 pub struct Dependency {
     pub group_id: String,
     pub artifact_id: String,
-    pub version: String
+    pub version: Option<String>,
+    pub scope: Option<String>
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct Repository {
+    pub id: String,
+    pub name: String,
+    pub url: String
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -22,12 +31,32 @@ pub struct Parent {
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
+pub struct Dependencies {
+    pub dependency: Vec<Dependency>,
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct DependencyManagement {
+    pub dependency: Vec<Dependency>,
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct Repositories {
+    pub repository: Vec<Repository>,
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct Project {
     pub group_id: Option<String>,
     pub artifact_id: String,
     pub version: Option<String>,
     pub parent: Option<Parent>,
-    pub dependencies: Option<Vec<Dependency>>,
+    pub dependencies: Option<Dependencies>,
+    pub dependency_management: Option<DependencyManagement>,
+    pub repositories: Option<Repositories>,
 }
 
 /* fn load_file(filename: String){
