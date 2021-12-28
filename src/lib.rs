@@ -49,6 +49,12 @@ pub struct Repositories {
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
+pub struct Properties {
+    pub repository: Vec<Repository>,
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct Project {
     pub group_id: Option<String>,
     pub artifact_id: String,
@@ -57,6 +63,7 @@ pub struct Project {
     pub dependencies: Option<Dependencies>,
     pub dependency_management: Option<DependencyManagement>,
     pub repositories: Option<Repositories>,
+    pub properties: Option<Properties>
 }
 
 /* fn load_file(filename: String){

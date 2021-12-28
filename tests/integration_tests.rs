@@ -62,7 +62,7 @@ fn parse_with_parent(){
 }
 
 #[test]
-fn parse_with_dependencies(){
+fn parse_full_pom(){
     let pom_str = "<project>
     <artifactId>my-artifact</artifactId>
     <groupId>my.group.id</groupId>
